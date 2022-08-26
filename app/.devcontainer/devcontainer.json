@@ -1,0 +1,26 @@
+{
+  "name": "APP",
+  "dockerComposeFile": "docker-compose.yml",
+  "workspaceFolder": "/workspace/app",
+  "service": "app",
+  "extensions": [
+    "ms-python.python"
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--max-line-length=88"],
+    "python.formatting.blackArgs": ["--line-length=88"],
+    "python.formatting.provider": "black",
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "bash",
+        "args": ["-l"]
+      }
+    }
+  }
+}
