@@ -8,8 +8,7 @@ authors = ["Ibuki-Narukawa <ibuki0212job@gmail.com>"]
 python = "^3.9"
 PyAudio = "^0.2.12"
 librosa = "^0.9.2"
-SoundCard = "^0.4.2"
-SoundFile = "^0.10.3"
+pyrubberband = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 

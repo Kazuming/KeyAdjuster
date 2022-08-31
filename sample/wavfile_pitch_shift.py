@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     # キー変更
     # key_adjuster("./input_data/input.wav", "./output_data/music.wav", -2)
-    key_adjuster("./input_data/sinjidai.wav", "./output_data/music.wav", -2)
+    key_adjuster("./input_data/sinjidai.wav", "./output_data/music.wav", 2)
 
     # 再生
     # play(paudio, "./input_data/input.wav")
