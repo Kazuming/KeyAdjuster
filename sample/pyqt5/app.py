@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget)
 import sys
-import realtime_nonblocking
 import subprocess
 
 class WidgetGallery(QDialog):
