@@ -58,7 +58,7 @@ def signal_proc(input_buff, dtype=np.float32):
     # Pitch shift and Convert nd-array into framebuffer
     output_data = np.reshape(output_data.T, (CHUNK * CHANNELS))
     # wav_shift = librosa.effects.pitch_shift(y=output_data, sr=SAMPLING_RATE, n_steps=-2)
-    wav_shift = pyrb.pitch_shift(output_data, SAMPLING_RATE, 2)
+    wav_shift = pyrb.pitch_shift(output_data, SAMPLING_RATE, -2)
     output_buff = wav_shift.astype(dtype).tobytes()
     return output_buff
 
