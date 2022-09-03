@@ -41,7 +41,7 @@ class WidgetGallery(QDialog):
 
         mainLayout = QGridLayout()
         mainLayout.addLayout(topLayout, 0, 0, 1, 2)
-        mainLayout.addWidget(self.topRightGroupBox, 1, 1)
+        mainLayout.addWidget(self.topRightGroupBox, 1, 0)
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
         mainLayout.setColumnStretch(0, 1)
@@ -69,29 +69,23 @@ class WidgetGallery(QDialog):
 
         defaultPushButton = QPushButton("Play Button")
         defaultPushButton.setDefault(False)
-        defaultPushButton.clicked.connect(self.Play)
+        defaultPushButton.clicked.connect(self.play)
 
         togglePushButton = QPushButton("Stop Button")
-        togglePushButton.clicked.connect(self.Stop)
-        # togglePushButton.setCheckable(True)
-        # togglePushButton.setChecked(True)
-
-        flatPushButton = QPushButton("Flat Push Button")
-        flatPushButton.setFlat(True)
+        togglePushButton.clicked.connect(self.stop)
 
         layout = QVBoxLayout()
         layout.addWidget(defaultPushButton)
         layout.addWidget(togglePushButton)
-        layout.addWidget(flatPushButton)
         layout.addStretch(1)
         self.topRightGroupBox.setLayout(layout)
     
-    def Play(self):
+    def play(self):
         if not self.play_flag:
             self.proc = subprocess.Popen(["python", "realtime_nonblocking.py"]) #Popenならサブプロセス中も、次のメインプロセスが実行される
         self.play_flag = True
 
-    def Stop(self):
+    def stop(self):
         if self.play_flag:
             self.proc.kill()
         self.play_flag = False
