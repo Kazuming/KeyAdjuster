@@ -19,11 +19,11 @@ class WidgetGallery(QDialog):
     def __init__(self, parent=None):
         super(WidgetGallery, self).__init__(parent)
         
-        keylayout = QVBoxLayout()
+        keyLayout = QVBoxLayout()
         self.l1 = QLabel("原曲キー: +-0")
         self.l1.setFont(QtGui.QFont("Verdana", 20,QtGui.QFont.Black))
         self.l1.setAlignment(Qt.AlignCenter)
-        keylayout.addWidget(self.l1)
+        keyLayout.addWidget(self.l1)
         
         self.sl = QSlider(Qt.Horizontal)
         self.sl.setMinimum(-6)
@@ -32,8 +32,8 @@ class WidgetGallery(QDialog):
         self.sl.setTickPosition(QSlider.TicksBelow)
         self.sl.setTickInterval(1)
         
-        keylayout.addWidget(self.sl)
-        # keylayout.addStretch(0.1)
+        keyLayout.addWidget(self.sl)
+        # keyLayout.addStretch(0.1)
         self.sl.valueChanged.connect(self.valuechange)
         
         self.createSettiongButton()
@@ -42,7 +42,7 @@ class WidgetGallery(QDialog):
 
         mainLayout = QGridLayout()
         
-        mainLayout.addLayout(keylayout, 0, 0, 1, 2)
+        mainLayout.addLayout(keyLayout, 0, 0, 1, 2)
         mainLayout.addWidget(self.SettiongButton, 0, 2)
         mainLayout.addLayout(self.startlayout, 1, 0, 1, 3)
         
@@ -57,15 +57,15 @@ class WidgetGallery(QDialog):
 
 
         # ThreadPyaudio Props
-        self.play_flag = False
-        self.SAMPLING_RATE: int
-        self.N: int
+        self.playFlag = False
+        self.samplingRate: int
+        self.n: int
         # 複数のマイク/スピーカーがある場合はここでINDEXを設定する
-        self.INPUT_DEVICE_INDEX: int
-        self.OUTPUT_DEVICE_INDEX: int
+        self.inputDeviceIndex: int
+        self.outputDeviceIndex: int
         # キー
-        self.N_STEPS = self.sl.value()
-        self.thread_pyaudio: ThreadPyaudio
+        self.key = self.sl.value()
+        self.threadPyaudio: ThreadPyaudio
         self._stop = threading.Event()
     
     def changeStyle(self, styleName):
@@ -78,8 +78,8 @@ class WidgetGallery(QDialog):
              
     def valuechange(self):
         key = self.sl.value()
-        self.N_STEPS = key
-        self.thread_pyaudio.N_STEPS = key
+        self.key = key
+        self.threadPyaudio.key = key
 
         if key>0:
             self.l1.setText('原曲キー: +'+ str(key))
@@ -115,19 +115,19 @@ class WidgetGallery(QDialog):
     def createSettiongButton(self):
         p = pyaudio.PyAudio()
 
-        input_device_list = {}
-        output_device_list = {}
+        inputDeviceList = {}
+        outputDeviceList = {}
 
         # 複数のマイク/スピーカーがある場合、以下のfor文で確認して
-        # INPUT_DEVICE_INDEXとOUTPUT_DEVICE_INDEXを書き換える
+        # inputDeviceIndexとoutputDeviceIndexを書き換える
         for x in range(0, p.get_device_count()):
             if p.get_device_info_by_index(x)["maxInputChannels"] != 0:
-                input_device_list[p.get_device_info_by_index(x)["name"]] = x
+                inputDeviceList[p.get_device_info_by_index(x)["name"]] = x
             if p.get_device_info_by_index(x)["maxOutputChannels"] != 0:
-                output_device_list[p.get_device_info_by_index(x)["name"]] = x
+                outputDeviceList[p.get_device_info_by_index(x)["name"]] = x
         
-        sampling_rate_list = ["44100", "44800"]
-        chunk_list = ["20", "50"]
+        samplingRateList = ["44100", "44800"]
+        chunkList = ["20", "50"]
         
         # self.SettiongButton = QGroupBox("機器設定")
         self.SettiongButton = QGroupBox()
@@ -136,44 +136,44 @@ class WidgetGallery(QDialog):
 
         def inputChange():
             print(inputComboBox.currentText())
-            self.INPUT_DEVICE_INDEX = input_device_list[inputComboBox.currentText()]
+            self.inputDeviceIndex = inputDeviceList[inputComboBox.currentText()]
         def outputChange():
             print(outputComboBox.currentText())
-            self.OUTPUT_DEVICE_INDEX = output_device_list[outputComboBox.currentText()]
+            self.outputDeviceIndex = outputDeviceList[outputComboBox.currentText()]
         def samplingRateChange():
             print(samplingRateComboBox.currentText())
-            self.SAMPLING_RATE = int(samplingRateComboBox.currentText())
+            self.samplingRate = int(samplingRateComboBox.currentText())
         def chunkChange():
             print(chunkComboBox.currentText())
-            self.N = int(chunkComboBox.currentText())
+            self.n = int(chunkComboBox.currentText())
           
           
         # INPUT  
         inputComboBox = QComboBox()
-        inputComboBox.addItems(input_device_list.keys())
+        inputComboBox.addItems(inputDeviceList.keys())
         inputComboBox.activated.connect(inputChange)
         
         inputLabel = QLabel("Input:")
         inputLabel.setBuddy(inputComboBox)
-        inputlayout = QHBoxLayout()
-        inputlayout.addWidget(inputLabel)
-        inputlayout.addWidget(inputComboBox)
+        inputLayout = QHBoxLayout()
+        inputLayout.addWidget(inputLabel)
+        inputLayout.addWidget(inputComboBox)
         
         
         # OUTPUT
         outputComboBox = QComboBox()
-        outputComboBox.addItems(output_device_list.keys())
+        outputComboBox.addItems(outputDeviceList.keys())
         outputComboBox.activated.connect(outputChange)
         
         outputLabel = QLabel("Output:")
         outputLabel.setBuddy(outputComboBox)
-        outputlayout = QHBoxLayout()
-        outputlayout.addWidget(outputLabel)
-        outputlayout.addWidget(outputComboBox)
+        outputLayout = QHBoxLayout()
+        outputLayout.addWidget(outputLabel)
+        outputLayout.addWidget(outputComboBox)
 
         #SAMPLING RATE
         samplingRateComboBox = QComboBox()
-        samplingRateComboBox.addItems(sampling_rate_list)
+        samplingRateComboBox.addItems(samplingRateList)
         samplingRateComboBox.activated.connect(samplingRateChange)
         
         samplingRateLabel = QLabel("Samplingrate:")
@@ -185,7 +185,7 @@ class WidgetGallery(QDialog):
         
         # CHUNK
         chunkComboBox = QComboBox()
-        chunkComboBox.addItems(chunk_list)
+        chunkComboBox.addItems(chunkList)
         chunkComboBox.activated.connect(chunkChange)
         
         chunkLabel = QLabel("Chunk(1024×N):")
@@ -195,14 +195,14 @@ class WidgetGallery(QDialog):
         chunkLayout.addWidget(chunkComboBox)
         
         # init ThreadPyaudio Props
-        self.INPUT_DEVICE_INDEX = input_device_list[inputComboBox.currentText()]
-        self.OUTPUT_DEVICE_INDEX = output_device_list[outputComboBox.currentText()]
-        self.SAMPLING_RATE = int(samplingRateComboBox.currentText())
-        self.N = int(chunkComboBox.currentText())
+        self.inputDeviceIndex = inputDeviceList[inputComboBox.currentText()]
+        self.outputDeviceIndex = outputDeviceList[outputComboBox.currentText()]
+        self.samplingRate = int(samplingRateComboBox.currentText())
+        self.n = int(chunkComboBox.currentText())
         
         parentLayout = QVBoxLayout()
-        parentLayout.addLayout(inputlayout)
-        parentLayout.addLayout(outputlayout)
+        parentLayout.addLayout(inputLayout)
+        parentLayout.addLayout(outputLayout)
         parentLayout.addLayout(samplingRateLayout)
         parentLayout.addLayout(chunkLayout)
         self.SettiongButton.setLayout(parentLayout)
@@ -217,16 +217,16 @@ class WidgetGallery(QDialog):
 
 
     def play(self):
-        if not self.play_flag:
-            self.thread_pyaudio = ThreadPyaudio(self.SAMPLING_RATE, self.N, self.INPUT_DEVICE_INDEX, self.OUTPUT_DEVICE_INDEX, self.N_STEPS)
-            self.thread_pyaudio.start()
-        self.play_flag = True
+        if not self.playFlag:
+            self.threadPyaudio = ThreadPyaudio(self.samplingRate, self.n, self.inputDeviceIndex, self.outputDeviceIndex, self.key)
+            self.threadPyaudio.start()
+        self.playFlag = True
 
     def stop(self):
-        if self.play_flag:
+        if self.playFlag:
             # 実行中のスレッドを終了する
-            self.thread_pyaudio.kill_flag = True
-        self.play_flag = False
+            self.threadPyaudio.killFlag = True
+        self.playFlag = False
 
 
 def exit():
