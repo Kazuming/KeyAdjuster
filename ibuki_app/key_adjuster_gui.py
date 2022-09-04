@@ -44,7 +44,7 @@ class WidgetGallery(QDialog):
         
         mainLayout.addLayout(keyLayout, 0, 0, 1, 2)
         mainLayout.addWidget(self.SettiongButton, 0, 2)
-        mainLayout.addLayout(self.startlayout, 1, 0, 1, 3)
+        mainLayout.addLayout(self.startLayout, 1, 0, 1, 3)
         
         # mainLayout.setRowStretch(1, 1)
         # mainLayout.setRowStretch(2, 1)
@@ -52,20 +52,20 @@ class WidgetGallery(QDialog):
         # mainLayout.setColumnStretch(1, 1)
         self.setLayout(mainLayout)
         self.setWindowTitle("KeyAdjuster")
-        self.setGeometry(100,100,600,250)
+        self.setGeometry(100,100,700,250)
         # self.changeStyle('Fusion')
 
 
         # ThreadPyaudio Props
-        self.playFlag = False
-        self.samplingRate: int
+        self.play_flag = False
+        self.sampling_rate: int
         self.n: int
         # 複数のマイク/スピーカーがある場合はここでINDEXを設定する
-        self.inputDeviceIndex: int
-        self.outputDeviceIndex: int
+        self.input_device_index: int
+        self.output_device_index: int
         # キー
         self.key = self.sl.value()
-        self.threadPyaudio: ThreadPyaudio
+        self.thread_pyaudio: ThreadPyaudio
         self._stop = threading.Event()
     
     def changeStyle(self, styleName):
@@ -79,7 +79,7 @@ class WidgetGallery(QDialog):
     def valuechange(self):
         key = self.sl.value()
         self.key = key
-        self.threadPyaudio.key = key
+        self.thread_pyaudio.key = key
 
         if key>0:
             self.l1.setText('原曲キー: +'+ str(key))
@@ -104,10 +104,10 @@ class WidgetGallery(QDialog):
         # self.togglePushButton.toggled.connect(lambda:(self.togglePushButton.setText('STOP')) if (self.togglePushButton.isChecked()) else (self.togglePushButton.setText('START')))
         self.togglePushButton.clicked.connect(self.changePlayStatus)
 
-        self.startlayout = QVBoxLayout()
-        self.startlayout.addStretch(0.5)
-        self.startlayout.addWidget(self.togglePushButton)
-        self.startlayout.addStretch(0.5)
+        self.startLayout = QVBoxLayout()
+        self.startLayout.addStretch(0.5)
+        self.startLayout.addWidget(self.togglePushButton)
+        self.startLayout.addStretch(0.5)
         # self.StartButton.setLayout(layout)
 
     
@@ -115,18 +115,18 @@ class WidgetGallery(QDialog):
     def createSettiongButton(self):
         p = pyaudio.PyAudio()
 
-        inputDeviceList = {}
-        outputDeviceList = {}
+        input_device_list = {}
+        output_device_list = {}
 
         # 複数のマイク/スピーカーがある場合、以下のfor文で確認して
-        # inputDeviceIndexとoutputDeviceIndexを書き換える
+        # input_device_indexとoutput_device_indexを書き換える
         for x in range(0, p.get_device_count()):
             if p.get_device_info_by_index(x)["maxInputChannels"] != 0:
-                inputDeviceList[p.get_device_info_by_index(x)["name"]] = x
+                input_device_list[p.get_device_info_by_index(x)["name"]] = x
             if p.get_device_info_by_index(x)["maxOutputChannels"] != 0:
-                outputDeviceList[p.get_device_info_by_index(x)["name"]] = x
+                output_device_list[p.get_device_info_by_index(x)["name"]] = x
         
-        samplingRateList = ["44100", "44800"]
+        sampling_rate_list = ["44100", "44800"]
         chunkList = ["20", "50"]
         
         # self.SettiongButton = QGroupBox("機器設定")
@@ -136,13 +136,13 @@ class WidgetGallery(QDialog):
 
         def inputChange():
             print(inputComboBox.currentText())
-            self.inputDeviceIndex = inputDeviceList[inputComboBox.currentText()]
+            self.input_device_index = input_device_list[inputComboBox.currentText()]
         def outputChange():
             print(outputComboBox.currentText())
-            self.outputDeviceIndex = outputDeviceList[outputComboBox.currentText()]
+            self.output_device_index = output_device_list[outputComboBox.currentText()]
         def samplingRateChange():
             print(samplingRateComboBox.currentText())
-            self.samplingRate = int(samplingRateComboBox.currentText())
+            self.sampling_rate = int(samplingRateComboBox.currentText())
         def chunkChange():
             print(chunkComboBox.currentText())
             self.n = int(chunkComboBox.currentText())
@@ -150,10 +150,10 @@ class WidgetGallery(QDialog):
           
         # INPUT  
         inputComboBox = QComboBox()
-        inputComboBox.addItems(inputDeviceList.keys())
+        inputComboBox.addItems(input_device_list.keys())
         inputComboBox.activated.connect(inputChange)
         
-        inputLabel = QLabel("Input:")
+        inputLabel = QLabel("Input Device:")
         inputLabel.setBuddy(inputComboBox)
         inputLayout = QHBoxLayout()
         inputLayout.addWidget(inputLabel)
@@ -162,21 +162,21 @@ class WidgetGallery(QDialog):
         
         # OUTPUT
         outputComboBox = QComboBox()
-        outputComboBox.addItems(outputDeviceList.keys())
+        outputComboBox.addItems(output_device_list.keys())
         outputComboBox.activated.connect(outputChange)
         
-        outputLabel = QLabel("Output:")
+        outputLabel = QLabel("Output Device:")
         outputLabel.setBuddy(outputComboBox)
         outputLayout = QHBoxLayout()
         outputLayout.addWidget(outputLabel)
         outputLayout.addWidget(outputComboBox)
 
-        #SAMPLING RATE
+        # SAMPLING RATE
         samplingRateComboBox = QComboBox()
-        samplingRateComboBox.addItems(samplingRateList)
+        samplingRateComboBox.addItems(sampling_rate_list)
         samplingRateComboBox.activated.connect(samplingRateChange)
         
-        samplingRateLabel = QLabel("Samplingrate:")
+        samplingRateLabel = QLabel("Sampling Rate:")
         samplingRateLabel.setBuddy(samplingRateComboBox)
         samplingRateLayout = QHBoxLayout()
         samplingRateLayout.addWidget(samplingRateLabel)
@@ -195,9 +195,9 @@ class WidgetGallery(QDialog):
         chunkLayout.addWidget(chunkComboBox)
         
         # init ThreadPyaudio Props
-        self.inputDeviceIndex = inputDeviceList[inputComboBox.currentText()]
-        self.outputDeviceIndex = outputDeviceList[outputComboBox.currentText()]
-        self.samplingRate = int(samplingRateComboBox.currentText())
+        self.input_device_index = input_device_list[inputComboBox.currentText()]
+        self.output_device_index = output_device_list[outputComboBox.currentText()]
+        self.sampling_rate = int(samplingRateComboBox.currentText())
         self.n = int(chunkComboBox.currentText())
         
         parentLayout = QVBoxLayout()
@@ -217,16 +217,16 @@ class WidgetGallery(QDialog):
 
 
     def play(self):
-        if not self.playFlag:
-            self.threadPyaudio = ThreadPyaudio(self.samplingRate, self.n, self.inputDeviceIndex, self.outputDeviceIndex, self.key)
-            self.threadPyaudio.start()
-        self.playFlag = True
+        if not self.play_flag:
+            self.thread_pyaudio = ThreadPyaudio(self.sampling_rate, self.n, self.input_device_index, self.output_device_index, self.key)
+            self.thread_pyaudio.start()
+        self.play_flag = True
 
     def stop(self):
-        if self.playFlag:
+        if self.play_flag:
             # 実行中のスレッドを終了する
-            self.threadPyaudio.killFlag = True
-        self.playFlag = False
+            self.thread_pyaudio.kill_flag = True
+        self.play_flag = False
 
 
 def exit():
