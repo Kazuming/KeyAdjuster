@@ -64,7 +64,7 @@ class WidgetGallery(QDialog):
         self.input_device_index: int
         self.output_device_index: int
         # キー
-        self.key = self.sl.value()
+        self.n_steps = self.sl.value()
         self.thread_pyaudio: ThreadPyaudio
         self._stop = threading.Event()
     
@@ -78,8 +78,9 @@ class WidgetGallery(QDialog):
              
     def valuechange(self):
         key = self.sl.value()
-        self.key = key
-        self.thread_pyaudio.key = key
+        self.n_steps = key
+        if self.play_flag:
+            self.thread_pyaudio.n_steps = key
 
         if key>0:
             self.l1.setText('原曲キー: +'+ str(key))
@@ -218,7 +219,7 @@ class WidgetGallery(QDialog):
 
     def play(self):
         if not self.play_flag:
-            self.thread_pyaudio = ThreadPyaudio(self.sampling_rate, self.n, self.input_device_index, self.output_device_index, self.key)
+            self.thread_pyaudio = ThreadPyaudio(self.sampling_rate, self.n, self.input_device_index, self.output_device_index, self.n_steps)
             self.thread_pyaudio.start()
         self.play_flag = True
 

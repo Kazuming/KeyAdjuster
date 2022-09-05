@@ -5,7 +5,7 @@ import threading
 import time
 
 class ThreadPyaudio(threading.Thread):
-    def __init__(self, sampling_rate, n, input_device_index, output_device_index, key):
+    def __init__(self, sampling_rate, n, input_device_index, output_device_index, n_steps):
         threading.Thread.__init__(self)
         self.kill_flag = False
         self.sampling_rate = sampling_rate
@@ -18,7 +18,7 @@ class ThreadPyaudio(threading.Thread):
         # 音声データフォーマット
         self.format = pyaudio.paFloat32 # Float 32bit mode
         # キー
-        self.key = key
+        self.n_steps = n_steps
     
     def callback(self, in_data, frame_count, time_info, status):
         output_buff = self.signal_proc(in_data)
@@ -36,7 +36,7 @@ class ThreadPyaudio(threading.Thread):
 
         # Pitch shift and Convert nd-array into framebuffer
         output_data = np.reshape(output_data.T, (self.chunk * self.channels))
-        wav_shift = pyrb.pitch_shift(output_data, self.sampling_rate, self.key)
+        wav_shift = pyrb.pitch_shift(output_data, self.sampling_rate, self.n_steps)
         output_buff = wav_shift.astype(dtype).tobytes()
         return output_buff
     
