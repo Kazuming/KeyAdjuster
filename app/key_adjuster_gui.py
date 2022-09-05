@@ -2,8 +2,8 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 
-import sys
-import start, deviceConfig, keySlider
+import sys, signal
+import start, deviceConfig, keySlider, wakeup
 
 
 class MainWidget(QWidget):
@@ -23,16 +23,6 @@ class MainWidget(QWidget):
         self.setGeometry(100,100,600,300)
         # self.changeStyle('Macintosh')
 
-
-    def changeStyle(self, styleName):
-        QApplication.setStyle(QStyleFactory.create(styleName))
-        self.changePalette()
-
-
-    def changePalette(self):
-            QApplication.setPalette(QApplication.style().standardPalette())
-
-
     def createKeyArea(self):
         keyLabel = QLabel("原曲キー: ±0")
         keyLabel.setFont(QtGui.QFont("Verdana", 20,QtGui.QFont.Black))
@@ -41,14 +31,6 @@ class MainWidget(QWidget):
         self.keylayout = QVBoxLayout()
         self.keylayout.addWidget(keyLabel)
         self.keylayout.addWidget(slider)
-
-
-    def createStartWidget(self):
-        self.startlayout = QVBoxLayout()
-        self.startButtonGroup = start.StartButtonGroup(self.configWidget)
-        self.startlayout.addWidget(self.startButtonGroup.startButton)
-        self.startlayout.addWidget(self.startButtonGroup.stopButton)
-
 
     def createConfigWidget(self):
         self.configWidget = QGroupBox()
@@ -93,6 +75,19 @@ class MainWidget(QWidget):
         parentLayout.addLayout(chunkLayout)
         self.configWidget.setLayout(parentLayout)
 
+    def createStartWidget(self):
+        self.startlayout = QVBoxLayout()
+        self.startButtonGroup = start.StartButtonGroup(self.configWidget)
+        self.startlayout.addWidget(self.startButtonGroup.startButton)
+        self.startlayout.addWidget(self.startButtonGroup.stopButton)
+
+    def changeStyle(self, styleName):
+        QApplication.setStyle(QStyleFactory.create(styleName))
+        self.changePalette()
+
+    def changePalette(self):
+            QApplication.setPalette(QApplication.style().standardPalette())
+
 
 def exit():
     app.exec()
@@ -101,6 +96,8 @@ def exit():
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    wakeup.SignalWakeupHandler(app)
+    signal.signal(signal.SIGINT, lambda sig,_: app.quit())
     mainWidget = MainWidget()
     mainWidget.show()
     sys.exit(exit())

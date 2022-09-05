@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import *
-import globalVariables
+import globalVariables as gv
+
+
 class KeySllider(QSlider):
     def __init__(self, parent=None, label=None) -> None:
         super().__init__(parent)
@@ -9,12 +11,12 @@ class KeySllider(QSlider):
         self.setTickPosition(QSlider.TicksBelow)
         self.setTickInterval(1)
         self.label = label
-        globalVariables.N_STEPS = 0
+        gv.N_STEPS = 0
         self.valueChanged.connect(self.keyAdjust)
 
     def keyAdjust(self):
         key = self.value()
-        globalVariables.N_STEPS = key
+        gv.N_STEPS = key
         if key > 0:
             self.label.setText('原曲キー: +'+str(key))
         elif key < 0:

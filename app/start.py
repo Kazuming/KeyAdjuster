@@ -1,6 +1,6 @@
-
 from PyQt5.QtWidgets import *
 from thread_pyaudio import ThreadPyaudio
+
 
 class StartButtonGroup():
     def __init__(self, config, parent=None):
@@ -10,9 +10,8 @@ class StartButtonGroup():
         self.stopButton = QPushButton("STOP")
         self.stopButton.clicked.connect(self.onClickStop)
         self.stopButton.hide()
-        self.play_flag = False
-        self.thread_pyaudio : ThreadPyaudio
         self.config = config
+        self.thread_pyaudio : ThreadPyaudio
 
     def onClickStart(self):
         self.config.setDisabled(True)
@@ -30,12 +29,8 @@ class StartButtonGroup():
         pass
 
     def play(self):
-        if not self.play_flag:
-            self.thread_pyaudio = ThreadPyaudio()
-            self.thread_pyaudio.start()
-        self.play_flag = True
+        self.thread_pyaudio = ThreadPyaudio()
+        self.thread_pyaudio.start()
 
     def stop(self):
-        if self.play_flag:
-            self.thread_pyaudio.kill_flag = True
-        self.play_flag = False
+        self.thread_pyaudio.stop()
