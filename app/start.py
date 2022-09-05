@@ -2,12 +2,11 @@
 from PyQt5.QtWidgets import *
 from thread_pyaudio import ThreadPyaudio
 
-class startButtonGroup():
-    def __init__(self, config):
+class StartButtonGroup():
+    def __init__(self, config, parent=None):
         self.startButton = QPushButton("START")
         self.startButton.clicked.connect(self.onClickStart)
         self.startButton.setDefault(False)
-
         self.stopButton = QPushButton("STOP")
         self.stopButton.clicked.connect(self.onClickStop)
         self.stopButton.hide()
@@ -30,7 +29,6 @@ class startButtonGroup():
         self.stop()
         pass
 
-
     def play(self):
         if not self.play_flag:
             self.thread_pyaudio = ThreadPyaudio()
@@ -39,6 +37,5 @@ class startButtonGroup():
 
     def stop(self):
         if self.play_flag:
-            # 実行中のスレッドを終了する
             self.thread_pyaudio.kill_flag = True
         self.play_flag = False

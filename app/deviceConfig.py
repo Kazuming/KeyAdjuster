@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 import pyaudio, globalVariables
 
-class inputDeviceComboBox(QComboBox):
+class InputDeviceComboBox(QComboBox):
     device = []
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -12,20 +12,20 @@ class inputDeviceComboBox(QComboBox):
             self.device.append(info["name"])
             if info["maxInputChannels"] != 0:
                 self.addItem(info["name"])
-        self.activated[str].connect(self.onActivated)
+        self.activated.connect(self.onActivated)
         try:
             self.setCurrentIndex(2)
-            globalVariables.INPUT_DEVICE_INDEX = self.device.index(self.itemText(2))
+            globalVariables.INPUT_DEVICE_INDEX = self.device.index(self.currentText())
         except:
             print('Please install virtual audio device.', file=sys.stderr)
             self.setCurrentIndex(0)
-            globalVariables.INPUT_DEVICE_INDEX = 0
+            globalVariables.INPUT_DEVICE_INDEX = self.device.index(self.currentText())
 
     def onActivated(self,text):
         globalVariables.INPUT_DEVICE_INDEX = self.device.index(text)
 
 
-class outputDeviceComboBox(QComboBox):
+class OutputDeviceComboBox(QComboBox):
     device = []
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -35,31 +35,33 @@ class outputDeviceComboBox(QComboBox):
             self.device.append(info["name"])
             if info["maxOutputChannels"] != 0:
                 self.addItem(info["name"])
-        self.activated[str].connect(self.onActivated)
+        self.activated.connect(self.onActivated)
         self.setCurrentIndex(0)
+        globalVariables.OUTPUT_DEVICE_INDEX = self.device.index(self.currentText())
 
     def onActivated(self,text):
         globalVariables.OUTPUT_DEVICE_INDEX = self.device.index(text)
 
 
-class samplingRateComboBox(QComboBox):
+class SamplingRateComboBox(QComboBox):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.addItems(["44100", "48000", "88200", "96000"])
-        self.activated[int].connect(self.onActivated)
+        self.activated.connect(self.onActivated)
+        globalVariables.SAMPLING_RATE = int(self.currentText())
 
     def onActivated(self,rate):
         globalVariables.SAMPLING_RATE = int(rate)
 
 
-class chunkComboBox(QComboBox):
+class ChunkComboBox(QComboBox):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.addItems(["10", "20", "30", "40", "50", "60", "70", "80", "90", "100"])
-        self.activated[int].connect(self.onActivated)
-        self.setCurrentIndex(4)
-        globalVariables.CHUNK = 50*1024
+        self.addItems(["5", "10", "20", "30", "40", "50", "80", "100"])
+        self.activated.connect(self.onActivated)
+        self.setCurrentIndex(2)
+        globalVariables.CHUNK = int(self.currentText())
 
     def onActivated(self,chunk):
-        globalVariables.CHUNK = int(chunk)*1024
+        globalVariables.CHUNK = int(chunk)
 

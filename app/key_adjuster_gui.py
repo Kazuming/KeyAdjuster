@@ -3,59 +3,51 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 
 import sys
-import start, deviceConfig, globalVariables
+import start, deviceConfig, keySlider
 
 
-class WidgetGallery(QWidget):
+class MainWidget(QWidget):
     def __init__(self):
         super().__init__()
-        keylayout = QVBoxLayout()
-        self.l1 = QLabel("原曲キー: ±0")
-        self.l1.setFont(QtGui.QFont("Verdana", 20,QtGui.QFont.Black))
-        self.l1.setAlignment(Qt.AlignCenter)
-        keylayout.addWidget(self.l1)
-
-        self.sl = QSlider(Qt.Horizontal)
-        self.sl.setMinimum(-6)
-        self.sl.setMaximum(6)
-        self.sl.setValue(0)
-        self.sl.setTickPosition(QSlider.TicksBelow)
-        self.sl.setTickInterval(1)
-
-        keylayout.addWidget(self.sl)
-        self.sl.valueChanged.connect(self.valuechange)
-
+        self.createKeyArea()
         self.createConfigWidget()
-        self.startButtonGroup = start.startButtonGroup(self.configWidget)
+        self.createStartWidget()
 
         mainLayout = QGridLayout()
-        mainLayout.addLayout(keylayout, 0, 0, 1, 2)
+        mainLayout.addLayout(self.keylayout, 0, 0, 1, 2)
         mainLayout.addWidget(self.configWidget, 0, 2)
-        mainLayout.addWidget(self.startButtonGroup.startButton, 1, 0, 1, 3)
-        mainLayout.addWidget(self.startButtonGroup.stopButton, 1, 0, 1, 3)
+        mainLayout.addLayout(self.startlayout, 1, 0, 1, 3)
 
         self.setLayout(mainLayout)
         self.setWindowTitle("KeyAdjuster")
         self.setGeometry(100,100,600,300)
-        self.changeStyle('win')
+        # self.changeStyle('Macintosh')
+
 
     def changeStyle(self, styleName):
         QApplication.setStyle(QStyleFactory.create(styleName))
         self.changePalette()
 
+
     def changePalette(self):
             QApplication.setPalette(QApplication.style().standardPalette())
 
 
-    def valuechange(self):
-        key = self.sl.value()
-        globalVariables.N_STEPS = key
-        if key > 0:
-            self.l1.setText('原曲キー: +'+str(key))
-        elif key < 0:
-            self.l1.setText('原曲キー: '+str(key))
-        else:
-            self.l1.setText('原曲キー: ±0')
+    def createKeyArea(self):
+        keyLabel = QLabel("原曲キー: ±0")
+        keyLabel.setFont(QtGui.QFont("Verdana", 20,QtGui.QFont.Black))
+        keyLabel.setAlignment(Qt.AlignCenter)
+        slider = keySlider.KeySllider(Qt.Horizontal, keyLabel)
+        self.keylayout = QVBoxLayout()
+        self.keylayout.addWidget(keyLabel)
+        self.keylayout.addWidget(slider)
+
+
+    def createStartWidget(self):
+        self.startlayout = QVBoxLayout()
+        self.startButtonGroup = start.StartButtonGroup(self.configWidget)
+        self.startlayout.addWidget(self.startButtonGroup.startButton)
+        self.startlayout.addWidget(self.startButtonGroup.stopButton)
 
 
     def createConfigWidget(self):
@@ -63,7 +55,7 @@ class WidgetGallery(QWidget):
         self.configWidget.setAlignment(Qt.AlignCenter)
 
         # INPUT
-        inputComboBox = deviceConfig.inputDeviceComboBox()
+        inputComboBox = deviceConfig.InputDeviceComboBox()
         inputLabel = QLabel("Input:")
         inputLabel.setBuddy(inputComboBox)
         inputlayout = QHBoxLayout()
@@ -71,7 +63,7 @@ class WidgetGallery(QWidget):
         inputlayout.addWidget(inputComboBox)
 
         # OUTPUT
-        outputComboBox = deviceConfig.outputDeviceComboBox()
+        outputComboBox = deviceConfig.OutputDeviceComboBox()
         outputLabel = QLabel("Output:")
         outputLabel.setBuddy(outputComboBox)
         outputlayout = QHBoxLayout()
@@ -79,7 +71,7 @@ class WidgetGallery(QWidget):
         outputlayout.addWidget(outputComboBox)
 
         #SAMPLING RATE
-        samplingRateComboBox = deviceConfig.samplingRateComboBox()
+        samplingRateComboBox = deviceConfig.SamplingRateComboBox()
         samplingRateLabel = QLabel("Samplingrate:")
         samplingRateLabel.setBuddy(samplingRateComboBox)
         samplingRateLayout = QHBoxLayout()
@@ -87,7 +79,7 @@ class WidgetGallery(QWidget):
         samplingRateLayout.addWidget(samplingRateComboBox)
 
         # CHUNK
-        chunkComboBox = deviceConfig.chunkComboBox()
+        chunkComboBox = deviceConfig.ChunkComboBox()
         chunkLabel = QLabel("Chunk:")
         chunkLabel.setBuddy(chunkComboBox)
         chunkLayout = QHBoxLayout()
@@ -102,8 +94,13 @@ class WidgetGallery(QWidget):
         self.configWidget.setLayout(parentLayout)
 
 
+def exit():
+    app.exec()
+    mainWidget.startButtonGroup.stop()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    gallery = WidgetGallery()
-    gallery.show()
-    sys.exit(app.exec())
+    mainWidget = MainWidget()
+    mainWidget.show()
+    sys.exit(exit())
