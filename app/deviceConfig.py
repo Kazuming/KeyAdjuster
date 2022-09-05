@@ -12,7 +12,7 @@ class InputDeviceComboBox(QComboBox):
         for name, info in self.deviceInfo.items():
             if info["maxInputChannels"] != 0:
                 self.addItem(name)
-        self.activated.connect(self.onActivated)
+        self.activated[str].connect(self.onActivated)
         try:
             self.setCurrentIndex(2)
             gv.INPUT_DEVICE_INDEX = self.deviceInfo[self.currentText()]["index"]
@@ -33,10 +33,12 @@ class OutputDeviceComboBox(QComboBox):
             if info["maxOutputChannels"] != 0:
                 self.addItem(name)
         self.setCurrentIndex(0)
+        self.activated[str].connect(self.onActivated)
         gv.OUTPUT_DEVICE_INDEX = self.deviceInfo[self.currentText()]["index"]
         gv.OUTPUT_CHANNELS = self.deviceInfo[self.currentText()]["maxOutputChannels"]
 
     def onActivated(self,text):
+        print(text)
         gv.OUTPUT_DEVICE_INDEX = self.deviceInfo[text]["index"]
         gv.OUTPUT_CHANNELS = self.deviceInfo[text]["maxOutputChannels"]
 
@@ -45,10 +47,11 @@ class SamplingRateComboBox(QComboBox):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.addItems(["44100", "48000", "88200", "96000"])
-        self.activated.connect(self.onActivated)
+        self.activated[str].connect(self.onActivated)
         gv.SAMPLING_RATE = int(self.currentText())
 
     def onActivated(self,rate):
+        print(rate)
         gv.SAMPLING_RATE = int(rate)
 
 
@@ -56,11 +59,12 @@ class ChunkComboBox(QComboBox):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.addItems(["5", "10", "20", "30", "40", "50", "80", "100"])
-        self.activated.connect(self.onActivated)
+        self.activated[str].connect(self.onActivated)
         self.setCurrentIndex(2)
         gv.CHUNK = int(self.currentText())
 
     def onActivated(self,chunk):
+        print(chunk)
         gv.CHUNK = int(chunk)
 
 

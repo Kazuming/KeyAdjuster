@@ -24,11 +24,11 @@ class MainWidget(QWidget):
         # self.changeStyle('Macintosh')
 
     def createKeyArea(self):
+        self.keylayout = QVBoxLayout()
         keyLabel = QLabel("原曲キー: ±0")
         keyLabel.setFont(QtGui.QFont("Verdana", 20,QtGui.QFont.Black))
         keyLabel.setAlignment(Qt.AlignCenter)
         slider = keySlider.KeySllider(Qt.Horizontal, keyLabel)
-        self.keylayout = QVBoxLayout()
         self.keylayout.addWidget(keyLabel)
         self.keylayout.addWidget(slider)
 
@@ -96,6 +96,7 @@ def exit():
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setWindowIcon(QtGui.QIcon('icons/anplifier.png'))
     wakeup.SignalWakeupHandler(app)
     signal.signal(signal.SIGINT, lambda sig,_: app.quit())
     mainWidget = MainWidget()

@@ -33,4 +33,7 @@ class StartButtonGroup():
         self.thread_pyaudio.start()
 
     def stop(self):
-        self.thread_pyaudio.stop()
+        try:
+            self.thread_pyaudio.stop()
+        except AttributeError:
+            pass
