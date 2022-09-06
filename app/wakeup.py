@@ -1,7 +1,11 @@
-import signal, socket
+import signal
+import socket
+
 from PyQt5 import QtCore, QtNetwork
 
+
 class SignalWakeupHandler(QtNetwork.QAbstractSocket):
+
     def __init__(self, parent=None):
         super().__init__(QtNetwork.QAbstractSocket.UdpSocket, parent)
         self.old_fd = None

@@ -1,8 +1,9 @@
 from PyQt5.QtWidgets import *
-import globalVariables as gv
+import global_variables as gv
 
 
-class KeySllider(QSlider):
+class KeySlider(QSlider):
+
     def __init__(self, parent=None, label=None) -> None:
         super().__init__(parent)
         self.setMinimum(-6)

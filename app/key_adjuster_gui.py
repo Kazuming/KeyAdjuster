@@ -1,12 +1,14 @@
-from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 
-import sys, signal
-import start, deviceConfig, keySlider, wakeup
+import device_config
+import slider
+import start
 
 
 class MainWidget(QWidget):
+
     def __init__(self):
         super().__init__()
         self.createKeyArea()
@@ -28,16 +30,16 @@ class MainWidget(QWidget):
         keyLabel = QLabel("原曲キー: ±0")
         keyLabel.setFont(QtGui.QFont("Verdana", 20,QtGui.QFont.Black))
         keyLabel.setAlignment(Qt.AlignCenter)
-        slider = keySlider.KeySllider(Qt.Horizontal, keyLabel)
+        keySlider = slider.KeySlider(Qt.Horizontal, keyLabel)
         self.keylayout.addWidget(keyLabel)
-        self.keylayout.addWidget(slider)
+        self.keylayout.addWidget(keySlider)
 
     def createConfigWidget(self):
         self.configWidget = QGroupBox()
         self.configWidget.setAlignment(Qt.AlignCenter)
 
         # INPUT
-        inputComboBox = deviceConfig.InputDeviceComboBox()
+        inputComboBox = device_config.InputDeviceComboBox()
         inputLabel = QLabel("Input:")
         inputLabel.setBuddy(inputComboBox)
         inputlayout = QHBoxLayout()
@@ -45,7 +47,7 @@ class MainWidget(QWidget):
         inputlayout.addWidget(inputComboBox)
 
         # OUTPUT
-        outputComboBox = deviceConfig.OutputDeviceComboBox()
+        outputComboBox = device_config.OutputDeviceComboBox()
         outputLabel = QLabel("Output:")
         outputLabel.setBuddy(outputComboBox)
         outputlayout = QHBoxLayout()
@@ -53,26 +55,26 @@ class MainWidget(QWidget):
         outputlayout.addWidget(outputComboBox)
 
         #SAMPLING RATE
-        samplingRateComboBox = deviceConfig.SamplingRateComboBox()
+        samplingRateComboBox = device_config.SamplingRateComboBox()
         samplingRateLabel = QLabel("Samplingrate:")
         samplingRateLabel.setBuddy(samplingRateComboBox)
         samplingRateLayout = QHBoxLayout()
         samplingRateLayout.addWidget(samplingRateLabel)
         samplingRateLayout.addWidget(samplingRateComboBox)
 
-        # CHUNK
-        chunkComboBox = deviceConfig.ChunkComboBox()
-        chunkLabel = QLabel("Chunk:")
-        chunkLabel.setBuddy(chunkComboBox)
-        chunkLayout = QHBoxLayout()
-        chunkLayout.addWidget(chunkLabel)
-        chunkLayout.addWidget(chunkComboBox)
+        # DELAY
+        delayComboBox = device_config.DelayComboBox()
+        delayLabel = QLabel("Delay:")
+        delayLabel.setBuddy(delayComboBox)
+        delayLayout = QHBoxLayout()
+        delayLayout.addWidget(delayLabel)
+        delayLayout.addWidget(delayComboBox)
 
         parentLayout = QVBoxLayout()
         parentLayout.addLayout(inputlayout)
         parentLayout.addLayout(outputlayout)
         parentLayout.addLayout(samplingRateLayout)
-        parentLayout.addLayout(chunkLayout)
+        parentLayout.addLayout(delayLayout)
         self.configWidget.setLayout(parentLayout)
 
     def createStartWidget(self):
@@ -88,17 +90,6 @@ class MainWidget(QWidget):
     def changePalette(self):
             QApplication.setPalette(QApplication.style().standardPalette())
 
-
-def exit():
-    app.exec()
-    mainWidget.startButtonGroup.stop()
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    app.setWindowIcon(QtGui.QIcon('icons/anplifier.png'))
-    wakeup.SignalWakeupHandler(app)
-    signal.signal(signal.SIGINT, lambda sig,_: app.quit())
-    mainWidget = MainWidget()
-    mainWidget.show()
-    sys.exit(exit())
+    def exec(self, app):
+        app.exec()
+        self.startButtonGroup.stop()
