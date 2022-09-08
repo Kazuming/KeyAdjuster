@@ -21,8 +21,8 @@ class ThreadPyaudio:
         self.CHUNK = int(gv.SAMPLING_RATE/2)
         delay = np.zeros(self.CHUNK*self.CHUNNELS).reshape(-1, self.CHUNNELS)
         self.outputQ.append(delay)
-        self.input_thread = threading.Thread(target=self.audio, daemon=True)
-        self.input_thread.start()
+        self.thread = threading.Thread(target=self.audio, daemon=True)
+        self.thread.start()
         # Start, Stopを高速に繰り返したとき、streamを開く前に閉じてしまうエラーに対処
         while True:
             try:
@@ -66,7 +66,7 @@ class ThreadPyaudio:
         input_data = np.frombuffer(self.inputQ.pop(0), dtype=np.float32)
         input_data = input_data.reshape(-1, self.CHUNNELS)
         base_data = np.concatenate([take_over, input_data], 0)
-        shift_data = pyrb.pitch_shift(base_data, gv.SAMPLING_RATE, gv.N_STEPS*2)[self.CHUNK:self.CHUNK*2]
+        shift_data = pyrb.pitch_shift(base_data, gv.SAMPLING_RATE, gv.N_STEPS)[self.CHUNK:self.CHUNK*2]
         output_data = shift_data.astype(np.float32).tobytes()
         self.outputQ.append(output_data)
         return base_data[self.CHUNK:]

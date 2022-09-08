@@ -27,10 +27,10 @@ class MainWidget(QWidget):
 
     def createKeyWidget(self):
         keylayout = QVBoxLayout()
-        key_slider = slider.KeySlider()
-        key_label = key_slider.label
-        keylayout.addWidget(key_label)
-        keylayout.addWidget(key_slider)
+        keySlider = slider.KeySlider()
+        keyLabel = keySlider.label
+        keylayout.addWidget(keyLabel)
+        keylayout.addWidget(keySlider)
         self.keyWidget = QGroupBox()
         self.keyWidget.setLayout(keylayout)
 
@@ -59,19 +59,10 @@ class MainWidget(QWidget):
         samplingRateLayout.addWidget(samplingRateLabel)
         samplingRateLayout.addWidget(samplingRateComboBox)
 
-        # # DELAY
-        # delayComboBox = device_config.DelayComboBox()
-        # delayLabel = QLabel("Delay:")
-        # delayLabel.setBuddy(delayComboBox)
-        # delayLayout = QHBoxLayout()
-        # delayLayout.addWidget(delayLabel)
-        # delayLayout.addWidget(delayComboBox)
-
         parentLayout = QVBoxLayout()
         parentLayout.addLayout(inputlayout)
         parentLayout.addLayout(outputlayout)
         parentLayout.addLayout(samplingRateLayout)
-        # parentLayout.addLayout(delayLayout)
         self.configWidget = QGroupBox()
         self.configWidget.setAlignment(Qt.AlignCenter)
         self.configWidget.setLayout(parentLayout)

@@ -14,8 +14,8 @@ class KeySlider(QSlider):
         self.setValue(0)
         self.setTickPosition(QSlider.TicksBelow)
         self.setTickInterval(1)
-        self.label = QLabel("±0")
-        self.label.setFont(QtGui.QFont("Verdana", 25,QtGui.QFont.Black))
+        self.label = QLabel("原曲キー")
+        self.label.setFont(QtGui.QFont("Verdana", 20,QtGui.QFont.Black))
         self.label.setAlignment(Qt.AlignCenter)
         gv.N_STEPS = 0
         self.valueChanged.connect(self.keyAdjust)
@@ -24,10 +24,10 @@ class KeySlider(QSlider):
         key = self.value()
         gv.N_STEPS = key
         if key > 0:
-            self.label.setText('♯'+str(key))
+            self.label.setText("♯"+str(key))
         elif key < 0:
-            self.label.setText('♭'+str(key))
+            self.label.setText("♭"+str(abs(key)))
         else:
-            self.label.setText('±0')
+            self.label.setText("原曲キー")
 
 

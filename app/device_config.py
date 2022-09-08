@@ -21,6 +21,7 @@ class InputDeviceComboBox(QComboBox):
                 return
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
         gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
+        # ダイアログにした方がいいかも
         print('Please install virtual audio device.', file=sys.stderr)
 
     def onActivated(self):
@@ -54,19 +55,6 @@ class SamplingRateComboBox(QComboBox):
 
     def onActivated(self,rate):
         gv.SAMPLING_RATE = int(rate)
-
-
-class DelayComboBox(QComboBox):
-
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-        self.addItems(["0.5"])
-        self.activated[str].connect(self.onActivated)
-        self.setCurrentIndex(0)
-        gv.DELAY = float(self.currentText())
-
-    def onActivated(self,delay):
-        gv.DELAY = float(delay)
 
 
 def getDevice():
