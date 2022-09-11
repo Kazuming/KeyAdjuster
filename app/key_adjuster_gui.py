@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import *
 
 import device_config
 import slider
-import start
+import start_button
+import tip
 
 
 class MainWidget(QWidget):
@@ -21,7 +22,7 @@ class MainWidget(QWidget):
         mainLayout.addLayout(self.startlayout, 1, 0, 1, 3)
 
         self.setLayout(mainLayout)
-        self.setWindowTitle("KeyAdjuster")
+        self.setWindowTitle("Key Adjuster")
         self.setGeometry(100,100,600,300)
         # self.changeStyle('Fusion')
 
@@ -36,28 +37,40 @@ class MainWidget(QWidget):
 
     def createConfigWidget(self):
         # INPUT
+        inputlayout = QVBoxLayout()
+        inputTipLayout = QHBoxLayout()
         inputComboBox = device_config.InputDeviceComboBox()
-        inputLabel = QLabel("Input:")
+        inputTip = tip.InputTip()
+        inputLabel = QLabel("Input Device:")
         inputLabel.setBuddy(inputComboBox)
-        inputlayout = QHBoxLayout()
+        inputTipLayout.addWidget(inputComboBox)
+        inputTipLayout.addWidget(inputTip)
         inputlayout.addWidget(inputLabel)
-        inputlayout.addWidget(inputComboBox)
+        inputlayout.addLayout(inputTipLayout)
 
         # OUTPUT
+        outputlayout = QVBoxLayout()
+        outputTipLayout = QHBoxLayout()
         outputComboBox = device_config.OutputDeviceComboBox()
-        outputLabel = QLabel("Output:")
+        outputTip = tip.OutputTip()
+        outputLabel = QLabel("output Device:")
         outputLabel.setBuddy(outputComboBox)
-        outputlayout = QHBoxLayout()
+        outputTipLayout.addWidget(outputComboBox)
+        outputTipLayout.addWidget(outputTip)
         outputlayout.addWidget(outputLabel)
-        outputlayout.addWidget(outputComboBox)
+        outputlayout.addLayout(outputTipLayout)
 
         #SAMPLING RATE
+        samplingRateLayout = QVBoxLayout()
+        samplingRateTipLayout = QHBoxLayout()
         samplingRateComboBox = device_config.SamplingRateComboBox()
-        samplingRateLabel = QLabel("SamplingRate:")
+        samplingRateTip = tip.SamplingRateTip()
+        samplingRateLabel = QLabel("Sampling Rate:")
         samplingRateLabel.setBuddy(samplingRateComboBox)
-        samplingRateLayout = QHBoxLayout()
+        samplingRateTipLayout.addWidget(samplingRateComboBox)
+        samplingRateTipLayout.addWidget(samplingRateTip)
         samplingRateLayout.addWidget(samplingRateLabel)
-        samplingRateLayout.addWidget(samplingRateComboBox)
+        samplingRateLayout.addLayout(samplingRateTipLayout)
 
         parentLayout = QVBoxLayout()
         parentLayout.addLayout(inputlayout)
@@ -69,7 +82,7 @@ class MainWidget(QWidget):
 
     def createStartWidget(self):
         self.startlayout = QVBoxLayout()
-        self.startButtonGroup = start.StartButtonGroup(self.configWidget)
+        self.startButtonGroup = start_button.StartButtonGroup(self.configWidget)
         self.startlayout.addWidget(self.startButtonGroup.startButton)
         self.startlayout.addWidget(self.startButtonGroup.stopButton)
         self.startlayout.setStretch(1,1)
