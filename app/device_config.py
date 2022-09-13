@@ -22,7 +22,7 @@ class InputDeviceComboBox(QComboBox):
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
         gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
         # ダイアログにした方がいいかも
-        print('Please install virtual audio device.', file=sys.stderr)
+        print("Please install virtual audio device.", file=sys.stderr)
 
     def onActivated(self):
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]

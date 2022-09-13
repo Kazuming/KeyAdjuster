@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 
 import device_config
-import slider
+import key_slider
 import start_button
 import tip
 
@@ -28,7 +28,7 @@ class MainWidget(QWidget):
 
     def createKeyWidget(self):
         keylayout = QVBoxLayout()
-        keySlider = slider.KeySlider()
+        keySlider = key_slider.KeySlider()
         keyLabel = keySlider.label
         keylayout.addWidget(keyLabel)
         keylayout.addWidget(keySlider)
@@ -36,11 +36,14 @@ class MainWidget(QWidget):
         self.keyWidget.setLayout(keylayout)
 
     def createConfigWidget(self):
+        # TIPS
+        tips = tip.tipGroup()
+
         # INPUT
         inputlayout = QVBoxLayout()
         inputTipLayout = QHBoxLayout()
         inputComboBox = device_config.InputDeviceComboBox()
-        inputTip = tip.InputTip()
+        inputTip = tips.inputTip
         inputLabel = QLabel("Input Device:")
         inputLabel.setBuddy(inputComboBox)
         inputTipLayout.addWidget(inputComboBox)
@@ -52,7 +55,7 @@ class MainWidget(QWidget):
         outputlayout = QVBoxLayout()
         outputTipLayout = QHBoxLayout()
         outputComboBox = device_config.OutputDeviceComboBox()
-        outputTip = tip.OutputTip()
+        outputTip = tips.outputTip
         outputLabel = QLabel("output Device:")
         outputLabel.setBuddy(outputComboBox)
         outputTipLayout.addWidget(outputComboBox)
@@ -64,7 +67,7 @@ class MainWidget(QWidget):
         samplingRateLayout = QVBoxLayout()
         samplingRateTipLayout = QHBoxLayout()
         samplingRateComboBox = device_config.SamplingRateComboBox()
-        samplingRateTip = tip.SamplingRateTip()
+        samplingRateTip = tips.samplingRateTip
         samplingRateLabel = QLabel("Sampling Rate:")
         samplingRateLabel.setBuddy(samplingRateComboBox)
         samplingRateTipLayout.addWidget(samplingRateComboBox)
