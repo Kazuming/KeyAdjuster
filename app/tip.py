@@ -23,5 +23,3 @@ class tipGroup():
         self.samplingRateTip.setEnabled(False)
         self.samplingRateTip.setIcon(QApplication.style().standardIcon(QStyle.SP_MessageBoxQuestion))
         self.samplingRateTip.setToolTip("サンプリング周波数を選んでください。\n【推奨】: 44100Hz")
-
-

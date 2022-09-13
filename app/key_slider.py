@@ -29,5 +29,3 @@ class KeySlider(QSlider):
             self.label.setText("♭"+str(abs(key)))
         else:
             self.label.setText("原曲キー")
-
-

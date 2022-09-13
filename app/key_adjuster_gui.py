@@ -19,7 +19,7 @@ class MainWidget(QWidget):
         mainLayout = QGridLayout()
         mainLayout.addWidget(self.keyWidget, 0, 0, 1, 2)
         mainLayout.addWidget(self.configWidget, 0, 2)
-        mainLayout.addLayout(self.startlayout, 1, 0, 1, 3)
+        mainLayout.addLayout(self.startLayout, 1, 0, 1, 3)
 
         self.setLayout(mainLayout)
         self.setWindowTitle("Key Adjuster")
@@ -27,20 +27,20 @@ class MainWidget(QWidget):
         # self.changeStyle('Fusion')
 
     def createKeyWidget(self):
-        keylayout = QVBoxLayout()
+        keyLayout = QVBoxLayout()
         keySlider = key_slider.KeySlider()
         keyLabel = keySlider.label
-        keylayout.addWidget(keyLabel)
-        keylayout.addWidget(keySlider)
+        keyLayout.addWidget(keyLabel)
+        keyLayout.addWidget(keySlider)
         self.keyWidget = QGroupBox()
-        self.keyWidget.setLayout(keylayout)
+        self.keyWidget.setLayout(keyLayout)
 
     def createConfigWidget(self):
         # TIPS
         tips = tip.tipGroup()
 
         # INPUT
-        inputlayout = QVBoxLayout()
+        inputLayout = QVBoxLayout()
         inputTipLayout = QHBoxLayout()
         inputComboBox = device_config.InputDeviceComboBox()
         inputTip = tips.inputTip
@@ -48,11 +48,11 @@ class MainWidget(QWidget):
         inputLabel.setBuddy(inputComboBox)
         inputTipLayout.addWidget(inputComboBox)
         inputTipLayout.addWidget(inputTip)
-        inputlayout.addWidget(inputLabel)
-        inputlayout.addLayout(inputTipLayout)
+        inputLayout.addWidget(inputLabel)
+        inputLayout.addLayout(inputTipLayout)
 
         # OUTPUT
-        outputlayout = QVBoxLayout()
+        outputLayout = QVBoxLayout()
         outputTipLayout = QHBoxLayout()
         outputComboBox = device_config.OutputDeviceComboBox()
         outputTip = tips.outputTip
@@ -60,8 +60,8 @@ class MainWidget(QWidget):
         outputLabel.setBuddy(outputComboBox)
         outputTipLayout.addWidget(outputComboBox)
         outputTipLayout.addWidget(outputTip)
-        outputlayout.addWidget(outputLabel)
-        outputlayout.addLayout(outputTipLayout)
+        outputLayout.addWidget(outputLabel)
+        outputLayout.addLayout(outputTipLayout)
 
         #SAMPLING RATE
         samplingRateLayout = QVBoxLayout()
@@ -76,19 +76,19 @@ class MainWidget(QWidget):
         samplingRateLayout.addLayout(samplingRateTipLayout)
 
         parentLayout = QVBoxLayout()
-        parentLayout.addLayout(inputlayout)
-        parentLayout.addLayout(outputlayout)
+        parentLayout.addLayout(inputLayout)
+        parentLayout.addLayout(outputLayout)
         parentLayout.addLayout(samplingRateLayout)
         self.configWidget = QGroupBox()
         self.configWidget.setAlignment(Qt.AlignCenter)
         self.configWidget.setLayout(parentLayout)
 
     def createStartWidget(self):
-        self.startlayout = QVBoxLayout()
+        self.startLayout = QVBoxLayout()
         self.startButtonGroup = start_button.StartButtonGroup(self.configWidget)
-        self.startlayout.addWidget(self.startButtonGroup.startButton)
-        self.startlayout.addWidget(self.startButtonGroup.stopButton)
-        self.startlayout.setStretch(1,1)
+        self.startLayout.addWidget(self.startButtonGroup.startButton)
+        self.startLayout.addWidget(self.startButtonGroup.stopButton)
+        self.startLayout.setStretch(1,1)
 
     def changeStyle(self, styleName):
         QApplication.setStyle(QStyleFactory.create(styleName))
