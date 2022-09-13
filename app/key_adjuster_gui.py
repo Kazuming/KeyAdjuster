@@ -56,7 +56,7 @@ class MainWidget(QWidget):
         outputTipLayout = QHBoxLayout()
         outputComboBox = device_config.OutputDeviceComboBox()
         outputTip = tips.outputTip
-        outputLabel = QLabel("output Device:")
+        outputLabel = QLabel("Output Device:")
         outputLabel.setBuddy(outputComboBox)
         outputTipLayout.addWidget(outputComboBox)
         outputTipLayout.addWidget(outputTip)

@@ -1,5 +1,3 @@
-import sys
-
 import pyaudio
 from PyQt5.QtWidgets import *
 
@@ -21,8 +19,8 @@ class InputDeviceComboBox(QComboBox):
                 return
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
         gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
-        # ダイアログにした方がいいかも
-        print("Please install virtual audio device.", file=sys.stderr)
+        # 仮想オーディオのインストールを推奨するポップアップ
+        QMessageBox.information(None, "Key Adjusterのご利用にあたって", "仮想オーディオ（Soundflower, BlackHoleなど）をインストールすることをお勧めします。", QMessageBox.Yes)
 
     def onActivated(self):
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
