@@ -35,17 +35,11 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='key_adjuster.icns',
-)
-app = BUNDLE(
-    exe,
-    name='KeyAdjuster.app',
-    icon='key_adjuster.icns',
-    bundle_identifier=None,
+    icon='icons/key_adjuster.icns',
 )

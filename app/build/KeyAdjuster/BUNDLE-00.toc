@@ -1,3 +1,0 @@
-([('KeyAdjuster',
-   '/Users/ibuki_narukawa/Projects/KeyAdjuster/app/dist/KeyAdjuster',
-   'EXECUTABLE')],)
