@@ -10,7 +10,7 @@ class tipGroup():
         self.inputTip = QToolButton()
         self.inputTip.setEnabled(False)
         self.inputTip.setIcon(QApplication.style().standardIcon(QStyle.SP_MessageBoxQuestion))
-        self.inputTip.setToolTip("入力するデバイスを選んでください。\n【推奨】: 仮想オーディオ（Soundflower, BlackHoleなど）")
+        self.inputTip.setToolTip("入力するデバイスを選んでください。\n※PCのサウンドの出力設定と同じにしてください。\n【推奨】: 仮想オーディオ（Soundflower, BlackHoleなど）")
 
         # アウトプットデバイス用のツールチップ
         self.outputTip = QToolButton()

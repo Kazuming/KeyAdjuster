@@ -4,3 +4,4 @@ src
 poetry.lock
 pyproject.toml
 build
+KeyAdjuster.spec
