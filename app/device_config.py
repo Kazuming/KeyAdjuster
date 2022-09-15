@@ -1,5 +1,3 @@
-import sys
-
 import pyaudio
 from PyQt5.QtWidgets import *
 
@@ -10,19 +8,22 @@ class InputDeviceComboBox(QComboBox):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.device, _ = getDevice()
+        self.device, _, self.virtual_device = getDevice()
         self.addItems(self.device.keys())
         self.activated.connect(self.onActivated)
-        for virtual_device in ["Soundflower (2ch)", "BlackHole 2ch"]:
-            if virtual_device in self.device.keys():
-                self.setCurrentText(virtual_device)
-                gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
-                gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
-                return
+        # 仮想オーディオのインストールを推奨するポップアップ
+        if len(self.virtual_device) == 0:
+            QMessageBox.information(None, "Key Adjusterのご利用にあたって", "仮想オーディオ（Soundflower, BlackHoleなど）をインストールすることをお勧めします。", QMessageBox.Yes)
+        else:
+            for virtual_device in ["Soundflower (2ch)", "BlackHole 2ch"]:
+                if virtual_device in self.device.keys():
+                    self.setCurrentText(virtual_device)
+                    gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
+                    gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
+                    return
+            self.setCurrentText(list(self.virtual_device.keys())[0])
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
         gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
-        # ダイアログにした方がいいかも
-        print('Please install virtual audio device.', file=sys.stderr)
 
     def onActivated(self):
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
@@ -33,7 +34,7 @@ class OutputDeviceComboBox(QComboBox):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        _, self.device = getDevice()
+        _, self.device, _ = getDevice()
         self.addItems(self.device.keys())
         self.activated.connect(self.onActivated)
         self.setCurrentIndex(0)
@@ -61,10 +62,13 @@ def getDevice():
     pa = pyaudio.PyAudio()
     input_device = {}
     output_device = {}
+    virtual_device = {}
     for x in range(pa.get_device_count()):
         info = pa.get_device_info_by_index(x)
         if info["maxInputChannels"] != 0:
             input_device[info["name"]] = info
         if info["maxOutputChannels"] != 0:
             output_device[info["name"]] = info
-    return input_device, output_device
+        if info["maxInputChannels"] >= 2 and info["maxOutputChannels"] >= 2 and info["name"] != "Microsoft Teams Audio":
+            virtual_device[info["name"]] = info
+    return input_device, output_device, virtual_device
