@@ -14,17 +14,20 @@ https://user-images.githubusercontent.com/104568924/190580710-7b7d9088-ac8d-4842
 * 入出力の処理を並列化することで、音質を下げずにキー変更を可能にしました。
 * 誰もが使いやすいように、シンプルなUIに設計しました。
  
-# 利用方法
  
-### 必要なライブラリのインストール
+# 必要なライブラリのインストール
  
 Requirementで列挙したライブラリなどのインストール方法を説明する
  
 ```bash
-pip install huga_package
+brew install rubberband
+```
+
+```bash
+brew install portaudio 
 ```
  
-# Usage
+# 利用方法
  
 DEMOの実行方法など、"hoge"の基本的な使い方を説明する
  
