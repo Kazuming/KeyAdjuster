@@ -16,12 +16,7 @@ https://user-images.githubusercontent.com/104568924/190580710-7b7d9088-ac8d-4842
  
 # 利用方法
  
-"hoge"を動かすのに必要なライブラリなどを列挙する
- 
-* huga 3.5.2
-* hogehuga 1.0.2
- 
-## Installation
+### 必要なライブラリのインストール
  
 Requirementで列挙したライブラリなどのインストール方法を説明する
  
