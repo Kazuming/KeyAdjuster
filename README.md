@@ -33,11 +33,11 @@ Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
 
 どちらも2ch
 
-### Key Adjusterのダウンロード
+## Key Adjusterのダウンロード
 https://github.com/Kazuming/KeyAdjuster.git
 
 
-### PCで流せる音楽アプリ
+## PCで流せる音楽アプリ
 youtubeやapple musuicなど
 
 
