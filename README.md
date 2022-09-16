@@ -28,7 +28,7 @@ $ brew install portaudio
 ## 仮想デバイスのダウンロード
 
 - Intelチップ搭載のMacbookの方
-<br>Soundflower:　https://soundflower.softonic.jp/mac
+<br>Soundflower: https://soundflower.softonic.jp/mac
 
 - それ以外の方
 <br>Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
