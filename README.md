@@ -26,10 +26,10 @@ $ brew install portaudio
 ## 仮想デバイスのダウンロード
 
 M1チップ搭載のMacbook以外の方
-Soundfloer:　https://soundflower.softonic.jp/mac
+<br>Soundfloer:　https://soundflower.softonic.jp/mac
 
 M1チップ搭載のMacbookの方
-Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
+<br>Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
 
 どちらも2ch
 
