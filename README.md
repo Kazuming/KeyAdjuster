@@ -41,12 +41,3 @@ python demo.py
  
 * 作成者: 成川伊吹、木村一真、佐藤正和
 * E-mail:mgmgmtww@gmail.com
- 
-# License
-ライセンスを明示する
- 
-"hoge" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
- 
-社内向けなら社外秘であることを明示してる
- 
-"hoge" is Confidential.
