@@ -16,14 +16,14 @@ https://user-images.githubusercontent.com/104568924/190580710-7b7d9088-ac8d-4842
  
 # 準備
 
-### ライブラリのインストール
+## ライブラリのインストール
 
 ```bash
 $ brew update
 $ brew install rubberband
 $ brew install portaudio 
 ```
-### 仮想デバイスのダウンロード
+## 仮想デバイスのダウンロード
 
 M1チップ搭載のMacbook以外の方
 Soundfloer:　https://soundflower.softonic.jp/mac
@@ -35,6 +35,7 @@ Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
 
 ### Key Adjusterのダウンロード
 https://github.com/Kazuming/KeyAdjuster.git
+
 
 ### PCで流せる音楽アプリ
 youtubeやapple musuicなど
