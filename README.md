@@ -31,7 +31,6 @@ M1チップ搭載のMacbook以外の方
 M1チップ搭載のMacbookの方
 <br>Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
 
-どちらも2ch
 
 ## Key Adjusterのダウンロード
 https://github.com/Kazuming/KeyAdjuster.git
