@@ -37,7 +37,7 @@ $ brew install portaudio
 https://github.com/Kazuming/KeyAdjuster/releases/download/v1.0.0/KeyAdjuster.zip
 
 ## PCで流せる音楽アプリ
-youtubeやapple musuicなど
+YouTube、Apple Musicなど
 
 # 利用方法
 1. ダウンロードしたKeyAdjusterを開く(アプリ立ち上げに20秒ほどかかります)
