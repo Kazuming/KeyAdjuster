@@ -18,9 +18,9 @@ https://user-images.githubusercontent.com/104568924/190580710-7b7d9088-ac8d-4842
 # 必要なライブラリのインストール
  
 ```bash
-brew update
-brew install rubberband
-brew install portaudio 
+$ brew update
+$ brew install rubberband
+$ brew install portaudio 
 ```
  
 # 利用方法
