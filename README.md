@@ -15,6 +15,8 @@ PC上で再生中の音を入力として、リアルタイムにキーを変更
 * 誰もが使いやすいように、シンプルなUIに設計しました。
  
 # インストール手順
+## Homebrewのインストール
+<a href="https://brew.sh/index_ja">Homebrewのホームーページ</a>
 
 ## ライブラリのインストール
 
@@ -25,10 +27,10 @@ $ brew install portaudio
 ```
 ## 仮想デバイスのダウンロード
 
-M1チップ搭載のMacbook以外の方
-<br>Soundfloer:　https://soundflower.softonic.jp/mac
+- Intelチップ搭載のMacbookの方
+<br>Soundflower:　https://soundflower.softonic.jp/mac
 
-M1チップ搭載のMacbookの方
+- それ以外の方
 <br>Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
 
 ## Key Adjusterのダウンロード
