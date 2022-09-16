@@ -43,10 +43,10 @@ youtubeやapple musuicなど
 
 # 利用方法
 1. ダウンロードしたファイルの中の　KeyAdjuster-main/app/dist/KeyAdjusterを開く(アプリ立ち上げに20秒ほどかかります)
- <br>2.PCのサウンド出力を仮想デバイスに変更
- <br>3.KeyAdjusterのInput Deviceを仮想デバイス、Output Deviceを出力したい機器(イヤホン、スピーカなど)に変更
- <br>4.音楽アプリを再生
- <br>5.KeyAdjusterのSTARTボタンを押し、キー変更スタート
+<br>2. PCのサウンド出力を仮想デバイスに変更
+<br>3. KeyAdjusterのInput Deviceを仮想デバイス、Output Deviceを出力したい機器(イヤホン、スピーカなど)に変更
+<br>4. 音楽アプリを再生
+<br>5. KeyAdjusterのSTARTボタンを押し、キー変更スタート
 
 ※わからない方はデモ動画をご覧ください。
  
