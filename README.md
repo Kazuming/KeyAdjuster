@@ -37,13 +37,10 @@ python demo.py
  
 注意点などがあれば書く
  
-# Author
+# 作成者
  
-作成情報を列挙する
- 
-* 作成者
-* 所属
-* E-mail
+* 作成者: 成川伊吹、木村一真、佐藤正和
+* E-mail:mgmgmtww@gmail.com
  
 # License
 ライセンスを明示する
