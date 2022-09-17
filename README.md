@@ -28,10 +28,11 @@ $ brew install portaudio
 ## 仮想デバイスのダウンロード
 
 - Intelチップ搭載のMacbookの方
-<br>Soundflower: https://soundflower.softonic.jp/mac
+<br>Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
+
 
 - それ以外の方
-<br>Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
+<br>Soundflower: https://soundflower.softonic.jp/mac
 
 ## Key Adjusterのダウンロード
 https://github.com/Kazuming/KeyAdjuster/releases/download/v1.0.0/KeyAdjuster.zip
