@@ -23,9 +23,8 @@ class MainWidget(QWidget):
 
         self.setLayout(mainLayout)
         self.setWindowTitle("Key Adjuster")
-        self.setGeometry(100,100,600,300)
+        self.setGeometry(100,100,900,450)
         # self.changeStyle('Fusion')
-
     def createKeyWidget(self):
         keyLayout = QVBoxLayout()
         keySlider = key_slider.KeySlider()
@@ -95,7 +94,7 @@ class MainWidget(QWidget):
         self.changePalette()
 
     def changePalette(self):
-            QApplication.setPalette(QApplication.style().standardPalette())
+        QApplication.setPalette(QApplication.style().standardPalette())
 
     def exec(self, app):
         app.exec()

@@ -12,12 +12,12 @@ class InputDeviceComboBox(QComboBox):
         self.addItems(self.device.keys())
         self.activated.connect(self.onActivated)
         # 仮想オーディオのインストールを推奨するポップアップ
-        if len(self.virtual_device) == 0:
-            QMessageBox.information(None, "Key Adjusterのご利用にあたって", "仮想オーディオ（Soundflower, BlackHoleなど）をインストールすることをお勧めします。", QMessageBox.Yes)
+        if len(self.device) == 0:
+            QMessageBox.information(None, "Key Adjusterのご利用にあたって", "仮想オーディオ（VB-CABLEなど）をインストールすることをお勧めします。", QMessageBox.Yes)
         else:
-            for virtual_device in ["Soundflower (2ch)", "BlackHole 2ch"]:
+            for virtual_device in ["CABLE Output (VB-Audio Virtual "]:
                 if virtual_device in self.device.keys():
-                    self.setCurrentText(virtual_device)
+                    self.setCurrentText("CABLE Output (VB-Audio Virtual ")
                     gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
                     gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
                     return
@@ -65,10 +65,11 @@ def getDevice():
     virtual_device = {}
     for x in range(pa.get_device_count()):
         info = pa.get_device_info_by_index(x)
-        if info["maxInputChannels"] != 0:
+        if info["maxInputChannels"] > 2:
             input_device[info["name"]] = info
-        if info["maxOutputChannels"] != 0:
+        if info["maxOutputChannels"] == 2:
             output_device[info["name"]] = info
         if info["maxInputChannels"] >= 2 and info["maxOutputChannels"] >= 2 and info["name"] != "Microsoft Teams Audio":
+            input_device[info["name"]] = info
             virtual_device[info["name"]] = info
     return input_device, output_device, virtual_device

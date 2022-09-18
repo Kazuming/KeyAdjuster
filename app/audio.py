@@ -23,30 +23,25 @@ class ThreadPyaudio:
         self.outputQ.append(delay)
         self.thread = threading.Thread(target=self.audio, daemon=True)
         self.thread.start()
-        # Start, Stopを高速に繰り返したとき、streamを開く前に閉じてしまうエラーに対処
-        while True:
-            try:
-                if self.stream.is_active():
-                    break
-                else:
-                    time.sleep(0.1)
-            except AttributeError:
-                time.sleep(0.1)
-            except OSError:
-                time.sleep(0.1)
 
     def audio(self):
-        self.stream = self.pa.open(
-            format = pyaudio.paFloat32,
-            channels = self.CHUNNELS,
-            rate = gv.SAMPLING_RATE,
-            frames_per_buffer = self.CHUNK,
-            input = True,
-            output = True,
-            input_device_index = gv.INPUT_DEVICE_INDEX,
-            output_device_index = gv.OUTPUT_DEVICE_INDEX,
-            stream_callback = self.callback
-            )
+        try:
+            self.stream = self.pa.open(
+                format = pyaudio.paFloat32,
+                channels = self.CHUNNELS,
+                rate = gv.SAMPLING_RATE,
+                frames_per_buffer = self.CHUNK,
+                input = True,
+                output = True,
+                input_device_index = gv.INPUT_DEVICE_INDEX,
+                output_device_index = gv.OUTPUT_DEVICE_INDEX,
+                stream_callback = self.callback
+                )
+        except OSError as e:
+            gv.ERROR_FLAG = True
+            threading.Event().clear()
+        except AttributeError:
+            pass
         self.stream.start_stream()
         data = np.zeros(self.CHUNK*2).reshape(-1, self.CHUNNELS)
         while self.stream.is_active():

@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 
 from audio import ThreadPyaudio
+import global_variables as gv
 
 
 class StartButtonGroup():
@@ -30,6 +31,10 @@ class StartButtonGroup():
 
     def play(self):
         self.audio.start()
+        if gv.ERROR_FLAG:
+            QMessageBox.critical(None, "エラー", "デバイスが正しくありません。\nInput Device、もしくはOutput Deviceの値を変更してください。", QMessageBox.Yes)
+            self.onClickStop()
+            gv.ERROR_FLAG = False
 
     def stop(self):
         self.audio.stop()
