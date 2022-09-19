@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "keyadjuster"
+version = "0.1.0"
+description = ""
+authors = ["Ibuki-Narukawa <ibuki0212job@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.9.13"
+PyAudio = "^0.2.12"
+pyrubberband = "^0.3.0"
+PyQt5 = "^5.15.7"
+pyinstaller = "^5.4.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

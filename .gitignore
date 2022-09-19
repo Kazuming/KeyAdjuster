@@ -1,7 +1,8 @@
 __pycache__/
 .DS_Store
 src
+poetry.toml
 poetry.lock
-pyproject.toml
 build
 KeyAdjuster.spec
+.venv

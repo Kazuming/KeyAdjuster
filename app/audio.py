@@ -40,15 +40,16 @@ class ThreadPyaudio:
         except OSError as e:
             gv.ERROR_FLAG = True
             threading.Event().clear()
-        except AttributeError:
-            pass
         self.stream.start_stream()
         data = np.zeros(self.CHUNK*2).reshape(-1, self.CHUNNELS)
-        while self.stream.is_active():
-            if len(self.inputQ) == 0:
-                time.sleep(0.1)
-                continue
-            data = self.signal_proc(data)
+        try:
+            while self.stream.is_active():
+                if len(self.inputQ) == 0:
+                    time.sleep(0.1)
+                    continue
+                data = self.signal_proc(data)
+        except:
+            time.sleep(0.1)
 
     def callback(self, in_data, frame_count, time_info, status):
         self.inputQ.append(in_data)
