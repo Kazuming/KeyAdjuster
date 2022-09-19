@@ -15,29 +15,46 @@ PC上で再生中の音を入力として、リアルタイムにキーを変更
 * 誰もが使いやすいように、シンプルなUIに設計しました。
  
 # インストール手順
-## Homebrewのインストール
+
+## Mac用
+### Homebrewのインストール
 <a href="https://brew.sh/index_ja">Homebrewのホームーページ</a>
 
-## ライブラリのインストール
+### ライブラリのインストール
 
 ```bash
 $ brew update
 $ brew install rubberband
 $ brew install portaudio 
 ```
-## 仮想デバイスのダウンロード
+### 仮想デバイスのインストール
 
 - Intelチップ搭載のMacbookの方
 <br>Soundflower: https://soundflower.softonic.jp/mac
 
-- それ以外の方
+- M1チップ搭載のMacbookの方
 <br>Blackhole: https://existential.audio/blackhole/?pk_campaign=github&pk_kwd=readme
 
+### Key Adjusterのダウンロード
+https://github.com/Kazuming/KeyAdjuster/releases/download/v1.0.0/KeyAdjuster_for_Mac.zip
 
-## Key Adjusterのダウンロード
-https://github.com/Kazuming/KeyAdjuster/releases/download/v1.0.0/KeyAdjuster.zip
+### PCで流せる音楽アプリ
+YouTube、Apple Musicなど
 
-## PCで流せる音楽アプリ
+## Windows用
+
+### ライブラリ（rubberband）のインストール
+#### rubberband: <a href="https://www.wizard-notes.com/entry/python/pyrubberband">参考資料</a>
+
+### 仮想デバイスのインストール
+#### VB-CABLE: <a href="https://arutora.com/15923">参考資料</a>
+インストール後、Windowsの設定→システム→サウンドから、出力デバイスのところに「CABLE Input」、入力デバイスのところに「CABLE Output」をセット
+してください。
+
+### Key Adjusterのダウンロード
+https://github.com/Kazuming/KeyAdjuster/releases/download/v1.0.0/KeyAdjuster_for_Windows.zip
+
+### PCで流せる音楽アプリ
 YouTube、Apple Musicなど
 
 # 利用方法
