@@ -12,16 +12,18 @@ class InputDeviceComboBox(QComboBox):
         self.addItems(self.device.keys())
         self.activated.connect(self.onActivated)
         # 仮想オーディオのインストールを推奨するポップアップ
-        if len(self.device) == 0:
+        if len(self.virtual_device) == 0:
             QMessageBox.information(None, "Key Adjusterのご利用にあたって", "仮想オーディオ（VB-CABLEなど）をインストールすることをお勧めします。", QMessageBox.Yes)
         else:
-            for virtual_device in ["CABLE Output (VB-Audio Virtual "]:
-                if virtual_device in self.device.keys():
-                    self.setCurrentText("CABLE Output (VB-Audio Virtual ")
-                    gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
-                    gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
-                    return
-            self.setCurrentText(list(self.virtual_device.keys())[0])
+            for recommend_device in ["CABLE Output"]:
+                for device in self.device.keys():
+                    if recommend_device in device:
+                        self.setCurrentText(device)
+                        gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
+                        gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
+                        return
+            if len(self.virtual_device.keys()) != 0:
+                self.setCurrentText(list(self.virtual_device.keys())[0])
         gv.INPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
         gv.INPUT_CHANNELS = self.device[self.currentText()]["maxInputChannels"]
 
@@ -37,7 +39,13 @@ class OutputDeviceComboBox(QComboBox):
         _, self.device, _ = getDevice()
         self.addItems(self.device.keys())
         self.activated.connect(self.onActivated)
-        self.setCurrentIndex(0)
+        for recommend_device in ["ヘッドホン", "スピーカー"]:
+                for device in self.device.keys():
+                    if recommend_device in device:
+                        self.setCurrentText(device)
+                        gv.OUTPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
+                        gv.OUTPUT_CHANNELS = self.device[self.currentText()]["maxOutputChannels"]
+                        return
         gv.OUTPUT_DEVICE_INDEX = self.device[self.currentText()]["index"]
         gv.OUTPUT_CHANNELS = self.device[self.currentText()]["maxOutputChannels"]
 
@@ -50,7 +58,7 @@ class SamplingRateComboBox(QComboBox):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.addItems(["44100", "48000", "88200", "96000"])
+        self.addItems(["44100", "48000", "88200", "96000", "16000"])
         self.activated[str].connect(self.onActivated)
         gv.SAMPLING_RATE = int(self.currentText())
 
@@ -63,13 +71,17 @@ def getDevice():
     input_device = {}
     output_device = {}
     virtual_device = {}
-    for x in range(pa.get_device_count()):
-        info = pa.get_device_info_by_index(x)
-        if info["maxInputChannels"] > 2:
-            input_device[info["name"]] = info
-        if info["maxOutputChannels"] == 2:
-            output_device[info["name"]] = info
-        if info["maxInputChannels"] >= 2 and info["maxOutputChannels"] >= 2 and info["name"] != "Microsoft Teams Audio":
-            input_device[info["name"]] = info
-            virtual_device[info["name"]] = info
+    info = pa.get_host_api_info_by_index(0)
+    numdevices = info.get('deviceCount')
+
+    for i in range(0, numdevices):
+        if (pa.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+            input_device[pa.get_device_info_by_host_api_device_index(0, i).get('name')] = pa.get_device_info_by_host_api_device_index(0, i)
+
+        if (pa.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 2:
+            virtual_device[pa.get_device_info_by_host_api_device_index(0, i).get('name')] = pa.get_device_info_by_host_api_device_index(0, i)
+
+        if (pa.get_device_info_by_host_api_device_index(0, i).get('maxOutputChannels')) > 0:
+            output_device[pa.get_device_info_by_host_api_device_index(0, i).get('name')] = pa.get_device_info_by_host_api_device_index(0, i)
+
     return input_device, output_device, virtual_device

@@ -25,21 +25,16 @@ class ThreadPyaudio:
         self.thread.start()
 
     def audio(self):
-        try:
-            self.stream = self.pa.open(
-                format = pyaudio.paFloat32,
-                channels = self.CHUNNELS,
-                rate = gv.SAMPLING_RATE,
-                frames_per_buffer = self.CHUNK,
-                input = True,
-                output = True,
-                input_device_index = gv.INPUT_DEVICE_INDEX,
-                output_device_index = gv.OUTPUT_DEVICE_INDEX,
-                stream_callback = self.callback
-                )
-        except OSError as e:
-            gv.ERROR_FLAG = True
-            threading.Event().clear()
+        self.stream = self.pa.open(
+            format = pyaudio.paFloat32,
+            channels = self.CHUNNELS,
+            rate = gv.SAMPLING_RATE,
+            frames_per_buffer = self.CHUNK,
+            input = True,
+            output = True,
+            output_device_index = gv.OUTPUT_DEVICE_INDEX,
+            stream_callback = self.callback
+            )
         self.stream.start_stream()
         data = np.zeros(self.CHUNK*2).reshape(-1, self.CHUNNELS)
         try:

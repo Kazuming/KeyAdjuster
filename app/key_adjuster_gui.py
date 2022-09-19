@@ -22,7 +22,7 @@ class MainWidget(QWidget):
 
         self.setLayout(mainLayout)
         self.setWindowTitle("Key Adjuster")
-        self.setGeometry(100,100,900,450)
+        self.setGeometry(100,100,800,400)
         # self.changeStyle('Fusion')
     def createKeyWidget(self):
         keyLayout = QVBoxLayout()

@@ -1,10 +1,6 @@
-from xmlrpc.client import boolean
-
-
 N_STEPS:int
 SAMPLING_RATE:int
 INPUT_DEVICE_INDEX:int
 OUTPUT_DEVICE_INDEX:int
 INPUT_CHANNELS:int
 OUTPUT_CHANNELS:int
-ERROR_FLAG:bool = False
