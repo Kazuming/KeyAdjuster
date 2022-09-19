@@ -83,10 +83,10 @@ def getDevice():
         if max_input_channels > 0 and "Microsoft Sound Mapper" not in device_name:
             input_device[device_name] = info
 
-        if max_input_channels > 2 and "Microsoft Sound Mapper" not in device_name:
+        if max_input_channels > 2 and "Microsoft" not in device_name:
             virtual_device[device_name] = info
 
-        if max_output_channels > 0 and "Microsoft Sound Mapper" not in device_name:
+        if max_output_channels > 0 and "Microsoft" not in device_name:
             output_device[device_name] = info
 
     return input_device, output_device, virtual_device
