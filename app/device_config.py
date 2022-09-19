@@ -80,7 +80,7 @@ def getDevice():
         max_input_channels = info.get('maxInputChannels')
         max_output_channels = info.get('maxOutputChannels')
 
-        if max_input_channels > 0 and "Microsoft Sound Mapper" not in device_name:
+        if max_input_channels > 0 and "Microsoft" not in device_name:
             input_device[device_name] = info
 
         if max_input_channels > 2 and "Microsoft" not in device_name:
