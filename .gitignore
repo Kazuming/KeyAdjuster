@@ -4,5 +4,4 @@ src
 poetry.toml
 poetry.lock
 build
-KeyAdjuster.spec
 .venv

@@ -71,17 +71,22 @@ def getDevice():
     input_device = {}
     output_device = {}
     virtual_device = {}
-    info = pa.get_host_api_info_by_index(0)
-    numdevices = info.get('deviceCount')
+    devices = pa.get_host_api_info_by_index(0)
+    numdevices = devices.get('deviceCount')
 
     for i in range(0, numdevices):
-        if (pa.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
-            input_device[pa.get_device_info_by_host_api_device_index(0, i).get('name')] = pa.get_device_info_by_host_api_device_index(0, i)
+        info = pa.get_device_info_by_host_api_device_index(0, i)
+        device_name = info.get('name')
+        max_input_channels = info.get('maxInputChannels')
+        max_output_channels = info.get('maxOutputChannels')
 
-        if (pa.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 2:
-            virtual_device[pa.get_device_info_by_host_api_device_index(0, i).get('name')] = pa.get_device_info_by_host_api_device_index(0, i)
+        if max_input_channels > 0 and "Microsoft Sound Mapper" not in device_name:
+            input_device[device_name] = info
 
-        if (pa.get_device_info_by_host_api_device_index(0, i).get('maxOutputChannels')) > 0:
-            output_device[pa.get_device_info_by_host_api_device_index(0, i).get('name')] = pa.get_device_info_by_host_api_device_index(0, i)
+        if max_input_channels > 2 and "Microsoft Sound Mapper" not in device_name:
+            virtual_device[device_name] = info
+
+        if max_output_channels > 0 and "Microsoft Sound Mapper" not in device_name:
+            output_device[device_name] = info
 
     return input_device, output_device, virtual_device
