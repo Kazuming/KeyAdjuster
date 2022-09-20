@@ -48,7 +48,7 @@ class ThreadPyaudio:
             stream_callback = self.callback
             )
         self.stream.start_stream()
-        data = np.zeros(self.CHUNK*2).reshape(-1, self.CHUNNELS)
+        data = np.zeros(self.CHUNK*self.CHUNNELS*2).reshape(-1, self.CHUNNELS)
         while self.stream.is_active():
             if len(self.inputQ) == 0:
                 time.sleep(0.1)
