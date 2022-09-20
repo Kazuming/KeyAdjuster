@@ -1,17 +1,20 @@
-import signal
 import sys
+import os
 
 import PyQt5
 
 import key_adjuster_gui
-import wakeup
 
 
-if __name__ == '__main__':
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+
+if __name__ == "__main__":
     app = PyQt5.QtWidgets.QApplication(sys.argv)
-    app.setWindowIcon(PyQt5.QtGui.QIcon('icons/icon_b.png'))
+    app.setWindowIcon(PyQt5.QtGui.QIcon(resource_path("key_adjuster.icns")))
     mainWidget = key_adjuster_gui.MainWidget()
     mainWidget.show()
-    wakeup.SignalWakeupHandler(app)
-    signal.signal(signal.SIGINT, lambda sig,_: app.quit())
     sys.exit(mainWidget.exec(app))
